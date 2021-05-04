@@ -1,5 +1,35 @@
 [[extend 'layout.html']]
 
 <div class="section">
-   <!-- Put the table here -->
+
+  <div class="container">
+    <table class="table is-striped is-fullwidth">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Purchase Count</th>
+        <th></th>
+      </tr>
+      [[for row in rows:]]
+      <tr>
+        <td>[[=row["title"] ]]</td>
+        <td>[[=row["author"] ]]</td>
+        <td>[[=row["price"] ]]</td>
+        <td>[[=row["purchased_count"] ]]</td>
+        <td>
+          <a class="button" href="[[=URL('add_to_cart', row['id'])]]">
+            <span class="icon"><i class="fa fa-fw fa-plus"></i></span>
+          </a>
+        </td>
+        <td>
+          <a class="button" href="[[=URL('add_to_wishlist', row['id'])]]">
+            <span class="icon"><i class="fa fa-fw fa-plus"></i></span>
+          </a>
+        </td>
+      </tr>
+      [[pass]]
+    </table>
+  </div>
+
 </div>
