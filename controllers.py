@@ -34,7 +34,30 @@ from .models import get_user_email
 url_signer = URLSigner(session)
 
 @action('index')
-@action.uses(db, auth, 'index.html')
+@action.uses(db, auth.user, 'index.html')
 def index():
-    ### You have to modify the code here as well. 
-    return dict()
+    rows = db(db.ebook).select()
+
+    return dict(rows=rows, url_signer=url_signer)
+
+@action('add_to_cart/<ebook_id:int>')
+@action.uses(db, auth.user)
+def add_to_cart(ebook_id=None):
+    assert ebook_id is not None
+    uid = db.auth_user(email = get_user_email()).select('id')
+    db.shopping_cart.insert(
+        user_id=uid,
+        ebook_id=ebook_id
+    )
+    redirect(URL('index'))
+
+@action('add_to_wishlist/<ebook_id:int>')
+@action.uses(db, auth.user)
+def add_to_wishlist(ebook_id=None):
+    assert ebook_id is not None
+    uid = db.auth_user(email = get_user_email()).select('id')
+    db.wish_list.insert(
+        user_id=uid,
+        ebook_id=ebook_id
+    )
+    redirect(URL('index'))
