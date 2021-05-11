@@ -25,6 +25,13 @@ db.define_table(
 )
 
 db.define_table(
+    'prices',
+    Field('ebook_id'),
+    Field('price_id'),
+    Field('source', requires=IS_NOT_EMPTY())
+)
+
+db.define_table(
     'shopping_cart',
     Field('user_id', requires=IS_NOT_EMPTY()),
     Field('ebook_id')
