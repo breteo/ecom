@@ -24,6 +24,7 @@ The path follows the bottlepy syntax.
 session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
+import sys
 
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
@@ -36,7 +37,17 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses(db, auth.user, 'index.html')
 def index():
-    rows = db(db.ebook).select()
+    rows = db(db.ebook).select().as_list()
+
+    for row in rows:
+        prices = db(db.prices.ebook_id == row['id']).select().as_list()
+        result = sys.maxsize
+        for p in prices:
+            if p['price'] < result:
+                result = p['price']
+        # and we can simply assign the nice string to a field of the row!
+        # No matter that the field did not originally exist in the database.
+        row["price"] = result
 
     return dict(rows=rows, url_signer=url_signer)
 

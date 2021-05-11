@@ -20,14 +20,13 @@ db.define_table(
     Field('url', requires=IS_NOT_EMPTY()),
     Field('img', default=IS_NOT_EMPTY),
     Field('author', requires=IS_NOT_EMPTY()),
-    Field('price', 'integer', requires=IS_NOT_EMPTY()),
     Field('purchased_count', 'integer', requires=IS_NOT_EMPTY())
 )
 
 db.define_table(
     'prices',
     Field('ebook_id'),
-    Field('price_id'),
+    Field('price', 'integer'),
     Field('source', requires=IS_NOT_EMPTY())
 )
 
