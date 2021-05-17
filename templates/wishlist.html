@@ -1,0 +1,26 @@
+[[extend 'layout.html']]
+
+<div class="section">
+
+    <h1 class="title">WishList</h1>
+
+    <!-- Display Books -->
+    <div class="container">
+        <table class="table is-striped is-fullwidth">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            [[for row in rows:]]
+            <tr>
+                <td>[[=row["title"] ]]</td>
+                <td>[[=row["author"] ]]</td>
+                <td>[[=row["price"] ]]</td>
+            </tr>
+            [[pass]]
+        </table>
+    </div>
+
+</div>

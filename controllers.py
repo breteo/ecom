@@ -40,6 +40,7 @@ url_signer = URLSigner(session)
 @action.uses(db, auth.user, 'index.html')
 def index():
     rows = db(db.ebook).select().as_list()
+    print(rows)
 
     for row in rows:
         prices = db(db.prices.ebook_id == row['id']).select().as_list()
@@ -68,11 +69,9 @@ def add_to_cart(ebook_id=None):
 @action.uses(db, auth.user)
 def add_to_wishlist(ebook_id=None):
     assert ebook_id is not None
-    uid = db.auth_user(email = get_user_email()).select('id')
-    db.wish_list.insert(
-        user_id=uid,
-        ebook_id=ebook_id
-    )
+    uid = db.auth_user(email = get_user_email())
+    p = db.ebook[ebook_id]
+    db.wish_list.insert(ebook_id = ebook_id, user_id = uid.id, title=p.title, img=p.img, author=p.author, url=p.url)
     redirect(URL('index'))
 
 @action('search')
@@ -81,3 +80,22 @@ def search():
     q = request.params.get("q")
     results = [q + ":" + str(uuid.uuid1()) for _ in range(random.randint(2, 6))]
     return dict(results=results)
+
+@action('gotowishlist')
+@action.uses(db, session, auth.user, 'wishlist.html')
+def gotowishlist():
+    rows = db(db.wish_list).select().as_list()
+    print(rows)
+
+    for row in rows:
+        prices = db(db.prices.ebook_id == row['ebook_id']).select().as_list()
+        # print(prices)
+        result = sys.maxsize
+        for p in prices:
+            if p['price'] < result:
+                result = p['price']
+        # and we can simply assign the nice string to a field of the row!
+        # No matter that the field did not originally exist in the database.
+        row["price"] = result
+
+    return dict(rows=rows, url_signer=url_signer, search_url = URL('search', signer=url_signer))

@@ -39,7 +39,11 @@ db.define_table(
 db.define_table(
     'wish_list',
     Field('user_id', requires=IS_NOT_EMPTY()),
-    Field('ebook_id')
+    Field('ebook_id'),
+    Field('title', requires=IS_NOT_EMPTY()),
+    Field('url', requires=IS_NOT_EMPTY()),
+    Field('img', default=IS_NOT_EMPTY),
+    Field('author', requires=IS_NOT_EMPTY()),
 )
 
 
