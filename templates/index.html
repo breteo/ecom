@@ -1,6 +1,45 @@
 [[extend 'layout.html']]
 
+<style>
+  [v-cloak] {
+       display: none;
+  }
+</style>
+  
+
 <div class="section">
+
+  <!-- Opening Bar  -->
+  <nav class="level has-background-info">
+    <!-- Left side -->
+    <div class="level-left ">
+      <div class="level-item">
+        <b class="is-size-1"> Slug Ebook Search </b>
+      </div>
+    </div>
+  
+    <!-- Right side -->
+    <div class="level-right">
+      <p class="level-item">May 16,2021</p>
+    </div>
+  </nav>
+    
+  <!-- Search Bar -->
+  <div class="section" id="vue-target" v-cloak>
+    <div class="control block">
+      <input class="input" type="text" v-model="query" @keyup="search" />
+    </div>
+  
+    <div v-for="r in results">{{r}}</div>
+  </div>
+  
+  [[block page_scripts]]
+  <!-- Loads the index-specific js for Vue -->
+  <script>
+    let search_url = "[[=XML(search_url)]]";
+  </script>
+  <script src="js/index.js"></script>
+  [[end]]
 
   <div class="container">
     <table class="table is-striped is-fullwidth">

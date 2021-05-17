@@ -31,6 +31,8 @@ from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
+import uuid
+import random
 
 url_signer = URLSigner(session)
 
@@ -49,7 +51,7 @@ def index():
         # No matter that the field did not originally exist in the database.
         row["price"] = result
 
-    return dict(rows=rows, url_signer=url_signer)
+    return dict(rows=rows, url_signer=url_signer, search_url = URL('search', signer=url_signer))
 
 @action('add_to_cart/<ebook_id:int>')
 @action.uses(db, auth.user)
@@ -72,3 +74,10 @@ def add_to_wishlist(ebook_id=None):
         ebook_id=ebook_id
     )
     redirect(URL('index'))
+
+@action('search')
+@action.uses()
+def search():
+    q = request.params.get("q")
+    results = [q + ":" + str(uuid.uuid1()) for _ in range(random.randint(2, 6))]
+    return dict(results=results)
