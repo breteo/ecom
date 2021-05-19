@@ -36,6 +36,11 @@ import random
 
 url_signer = URLSigner(session)
 
+@action('home')
+@action.uses(db, auth.user, 'home.html')
+def home():
+    return dict(url_signer=url_signer)
+
 @action('index')
 @action.uses(db, auth.user, 'index.html')
 def index():
