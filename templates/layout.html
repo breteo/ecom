@@ -13,8 +13,8 @@
     <!-- Navigation bar -->
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item" href="[[=URL('index')]]">
-          Learn py4web
+        <a class="navbar-item" href="[[=URL('home')]]">
+          <font size="+2">SlugBook</font>
           <!-- <img class="logo" width="150" src="images/site_icon.png"> -->
         </a>
 
@@ -33,8 +33,13 @@
         </div>
 
         <div class="navbar-end">
+          [[if globals().get('user'):]]
+            <a  class="navbar-item" href="[[=URL('gotowishlist')]]">
+              <span>Wishlist</span>
+            </a>
+          [[pass]]
           <div class="navbar-item">
-            <div class="buttons">
+            <div class="buttons" style="margin-top:-0.5rem;">
               [[if globals().get('user'):]]
                 <div class="navbar-item has-dropdown is-hoverable">
                   <a class="navbar-link is-primary">
@@ -62,8 +67,7 @@
     <!-- end of HTML inserted by extending template -->
     <footer class="footer">
       <div class="content has-text-centered">
-        Made with <a href="https://py4web.com">py4web</a>.
-        <a href="https://learn-py4web.github.io">Learn py4web!</a>
+        Ecom Team
       </div>
     </footer>
   </body>

@@ -1,0 +1,18 @@
+[[extend 'layout.html']]
+
+<style>
+  [v-cloak] {
+       display: none;
+  }
+</style>
+
+
+<div class="section">
+
+  [[block page_menu_items]]
+  <a class="navbar-item" href="[[=URL('index')]]">
+    Browse
+  </a>
+  [[end]]
+
+</div>
