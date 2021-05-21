@@ -39,13 +39,36 @@ url_signer = URLSigner(session)
 @action('home')
 @action.uses(db, auth.user, 'home.html')
 def home():
-    return dict(url_signer=url_signer)
+    rows = db(db.ebook).select(limitby=(0, 4)).as_list()
+
+    for row in rows:
+        prices = db(db.prices.ebook_id == row['id']).select().as_list()
+        result = sys.maxsize
+        for p in prices:
+            if p['price'] < result:
+                result = p['price']
+        # and we can simply assign the nice string to a field of the row!
+        # No matter that the field did not originally exist in the database.
+        row["price"] = result
+
+    popular = db(db.ebook).select(orderby=~db.ebook.purchased_count, limitby=(0, 4)).as_list()
+
+    for pop in popular:
+        prices = db(db.prices.ebook_id == pop['id']).select().as_list()
+        result = sys.maxsize
+        for p in prices:
+            if p['price'] < result:
+                result = p['price']
+        # and we can simply assign the nice string to a field of the row!
+        # No matter that the field did not originally exist in the database.
+        pop["price"] = result
+
+    return dict(rows=rows, popular=popular, url_signer=url_signer, search_url=URL('search', signer=url_signer))
 
 @action('index')
 @action.uses(db, auth.user, 'index.html')
 def index():
     rows = db(db.ebook).select().as_list()
-    print(rows)
 
     for row in rows:
         prices = db(db.prices.ebook_id == row['id']).select().as_list()
