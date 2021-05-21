@@ -18,7 +18,7 @@ db.define_table(
     'ebook',
     Field('title', requires=IS_NOT_EMPTY()),
     Field('url', requires=IS_NOT_EMPTY()),
-    Field('img', default=IS_NOT_EMPTY),
+    Field('img', default='no-image.jpg'),
     Field('author', requires=IS_NOT_EMPTY()),
     Field('purchased_count', 'integer', requires=IS_NOT_EMPTY())
 )
