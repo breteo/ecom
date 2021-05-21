@@ -97,9 +97,15 @@ def add_to_cart(ebook_id=None):
 @action.uses(db, auth.user)
 def add_to_wishlist(ebook_id=None):
     assert ebook_id is not None
+    isFound = False
     uid = db.auth_user(email = get_user_email())
     p = db.ebook[ebook_id]
-    db.wish_list.insert(ebook_id = ebook_id, user_id = uid.id, title=p.title, img=p.img, author=p.author, url=p.url)
+    rows = db(db.wish_list).select(db.wish_list.ebook_id).as_list()
+    for row in rows:
+        if(int(ebook_id) == int(row['ebook_id'])):
+            isFound = True
+    if(isFound is False):
+        db.wish_list.insert(ebook_id = ebook_id, user_id = uid.id, title=p.title, img=p.img, author=p.author, url=p.url)
     redirect(URL('index'))
 
 @action('search')
