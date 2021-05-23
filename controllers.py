@@ -144,10 +144,6 @@ def set_rating():
     )
     return "ok"
 
-
-
-
-
 @action('add_to_cart/<ebook_id:int>')
 @action.uses(db, auth.user)
 def add_to_cart(ebook_id=None):
@@ -184,7 +180,7 @@ def search():
     rows = db(db.ebook).select(db.ebook.title).as_list()
     for row in rows:
         if(row['title'].lower().find(q.lower()) != -1):
-            results = [q + ":" + row['title']]
+            results.append(q + ":" + row['title'])
     return dict(results=results)
 
 
