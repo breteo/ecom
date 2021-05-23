@@ -13,11 +13,11 @@
   <!-- Search Bar -->
   <div class="mt-1" id="vue-target" v-cloak>
     <div class="control block">
-      <input class="input" type="text" size="40" placeholder="Search" v-model="query" @keyup="search" />
+      <input class="input" type="text" size="40" placeholder="Search by title" v-model="query" @keyup="search" />
     </div>
 
     <div v-for="r in results">
-      <a href="#">{{r}}</a>
+      <i>{{r}}</i>
     </div>
   </div>
   [[end]]

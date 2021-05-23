@@ -112,7 +112,11 @@ def add_to_wishlist(ebook_id=None):
 @action.uses()
 def search():
     q = request.params.get("q")
-    results = [q + ":" + str(uuid.uuid1()) for _ in range(random.randint(2, 6))]
+    results = []
+    rows = db(db.ebook).select(db.ebook.title).as_list()
+    for row in rows:
+        if(row['title'].lower().find(q.lower()) != -1):
+            results = [q + ":" + row['title']]
     return dict(results=results)
 
 @action('gotowishlist')
