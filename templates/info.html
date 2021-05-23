@@ -1,0 +1,39 @@
+[[extend 'layout.html']]
+
+<style>
+  [v-cloak] {
+       display: none;
+  }
+</style>
+
+
+<div class="section">
+
+  [[block page_menu_items]]
+  <a class="navbar-item" href="[[=URL('index')]]">
+    Browse
+  </a>
+  [[end]]
+
+  <div class="container col-md-12">
+    <article style="padding: 10px 20px; border-radius: 3px; margin-bottom: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3), 0 6px 20px 0 rgba(0,0,0,0.2); display: flex; flex-wrap: wrap;">
+    <img class="mr-3" src="images/[[=book['img'] ]]" style="height: 300px; width: 200px; border-radius: 3px;">
+      <div style="flex:1;">
+        <div style="margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #808080">
+          <h1 style="display: inline-block; font-size: 30px;">[[=book["title"] ]]</h1>
+          <a class="button mr-1" style="float: right;" href="[[=URL('add_to_cart', book['id'])]]">
+            <span class="icon"><i class="fa fa-fw fa-shopping-cart"></i></span>
+          </a>
+          <a class="button mr-1" style="float: right;" href="[[=URL('add_to_wishlist', book['id'])]]">
+            <span class="icon"><i class="fa fa-fw fa-gift"></i></span>
+          </a>
+        </div>
+        <strong style="display: inline-block;">Author:</strong>
+        <p class="mr-2">[[=book["author"] ]]</p>
+        <br>
+        <p style="white-space: pre-line;">[[=book["description"] ]]</p>
+      </div>
+    </article>
+  </div>
+</div>

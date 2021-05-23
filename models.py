@@ -26,6 +26,7 @@ db.define_table(
     Field('url', requires=IS_NOT_EMPTY()),
     Field('img', default='no-image.jpg'),
     Field('author', requires=IS_NOT_EMPTY()),
+    Field('description'),
     Field('purchased_count', 'integer', requires=IS_NOT_EMPTY())
 )
 
