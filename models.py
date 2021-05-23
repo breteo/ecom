@@ -13,6 +13,12 @@ def get_user_email():
 def get_time():
     return datetime.datetime.utcnow()
 
+def get_user():
+    return auth.current_user.get('id') if auth.current_user else None
+
+def get_user_name():
+    return (auth.current_user.get('first_name') + " " + auth.current_user.get('last_name')) if auth.current_user else None
+
 
 db.define_table(
     'ebook',
@@ -38,7 +44,7 @@ db.define_table(
 
 db.define_table(
     'wish_list',
-    Field('user_id', requires=IS_NOT_EMPTY()),
+    Field('user_id', requires=IS_NOT_EMPTY(), default=get_user),
     Field('ebook_id'),
     Field('title', requires=IS_NOT_EMPTY()),
     Field('url', requires=IS_NOT_EMPTY()),
@@ -46,6 +52,20 @@ db.define_table(
     Field('author', requires=IS_NOT_EMPTY()),
 )
 
+db.define_table(
+    'post',
+    Field('content', 'text'),
+    Field('author', default=get_user_name),
+    Field('owner', default=get_user_email),
+    Field('reviewer', default=get_user),
 
+)
+
+db.define_table(
+    'star_rev',
+    Field('by', default=get_user_name),
+    Field('post', 'reference post'),
+    Field('rating', 'integer', default=0) #0-5
+)
 
 db.commit()
