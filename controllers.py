@@ -187,7 +187,6 @@ def search():
 @action('gotowishlist')
 @action.uses(db, session, auth.user, 'wishlist.html')
 def gotowishlist():
-    #rows = db(db.wish_list).select().as_list()
     rows = db(db.wish_list.user_id == get_user()).select().as_list()
 
     for row in rows:
