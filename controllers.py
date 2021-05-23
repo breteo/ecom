@@ -137,3 +137,10 @@ def gotowishlist():
         row["price"] = result
 
     return dict(rows=rows, url_signer=url_signer, search_url = URL('search', signer=url_signer))
+
+@action('info/<ebook_id:int>')
+@action.uses(db, auth.user, 'info.html')
+def info(ebook_id=None):
+    assert ebook_id is not None
+    book = db.ebook[ebook_id]
+    return dict(book=book, url_signer=url_signer)
