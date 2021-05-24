@@ -180,7 +180,7 @@ def search():
     rows = db(db.ebook).select(db.ebook.title).as_list()
     for row in rows:
         if(row['title'].lower().find(q.lower()) != -1):
-            results.append(q + ":" + row['title'])
+            results.append(q + ": " + row['title'])
     return dict(results=results)
 
 
