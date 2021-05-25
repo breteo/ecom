@@ -8,7 +8,7 @@
   </a>
   [[end]]
 
-  <h1 class="title">WishList</h1>
+  <h1 class="title">Shopping Cart</h1>
 
       <!-- Display Books -->
   <div class="container" style="text-align:center; max-width:1200px">
@@ -19,19 +19,15 @@
         <a href="[[=URL('info', row['ebook_id'])]]">
           <img src="images/[[=row['img'] ]]" style="height:300px; width:200px;">
         </a>
-
         <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
           <p>[[=row["title"] ]]</p>
           <p>[[=row["author"] ]]</p>
         </div>
 
-        <div style="display:inline-block; margin-right:20%;">
+        <div style="display:inline-block;">
           <font size="+2">$[[=row["price"] ]]</font>
         </div>
-        
-        <a class="button" href="[[=URL('add_to_cart', row['id'])]]">
-          <span class="icon"><i class="fa fa-fw fa-shopping-cart"></i></span>
-        </a>
+
       </article>
     [[pass]]
   </div>

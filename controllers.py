@@ -98,7 +98,6 @@ def my_callback():
     rows = db(db.post).select().as_list()
     return dict(rows=rows, user=get_user_email(), the_reviewer=get_user())
 
-
 @action('add_post', method="POST")
 @action.uses(url_signer.verify(), db)
 def add_post():
@@ -144,15 +143,20 @@ def set_rating():
     )
     return "ok"
 
+
 @action('add_to_cart/<ebook_id:int>')
 @action.uses(db, auth.user)
 def add_to_cart(ebook_id=None):
     assert ebook_id is not None
-    uid = db.auth_user(email = get_user_email()).select('id')
-    db.shopping_cart.insert(
-        user_id=uid,
-        ebook_id=ebook_id
-    )
+    isFound = False
+    p = db.ebook[ebook_id]
+    rows = db(db.shopping_cart.user_id == get_user()).select(db.shopping_cart.ebook_id).as_list()
+    for row in rows:
+        if(int(ebook_id) == int(row['ebook_id'])):
+            isFound = True
+            break
+    if(isFound is False):
+        db.shopping_cart.insert(ebook_id=ebook_id, user_id=get_user(), title=p.title, img=p.img, author=p.author, url=p.url)
     redirect(URL('index'))
 
 
@@ -188,6 +192,24 @@ def search():
 @action.uses(db, session, auth.user, 'wishlist.html')
 def gotowishlist():
     rows = db(db.wish_list.user_id == get_user()).select().as_list()
+
+    for row in rows:
+        prices = db(db.prices.ebook_id == row['ebook_id']).select().as_list()
+        # print(prices)
+        result = sys.maxsize
+        for p in prices:
+            if p['price'] < result:
+                result = p['price']
+        # and we can simply assign the nice string to a field of the row!
+        # No matter that the field did not originally exist in the database.
+        row["price"] = result
+
+    return dict(rows=rows, url_signer=url_signer, search_url=URL('search', signer=url_signer))
+
+@action('gotocart')
+@action.uses(db, session, auth.user, 'cart.html')
+def gotocart():
+    rows = db(db.shopping_cart.user_id == get_user()).select().as_list()
 
     for row in rows:
         prices = db(db.prices.ebook_id == row['ebook_id']).select().as_list()
