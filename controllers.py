@@ -192,6 +192,7 @@ def search():
 @action.uses(db, session, auth.user, 'wishlist.html')
 def gotowishlist():
     rows = db(db.wish_list.user_id == get_user()).select().as_list()
+    print(rows)
 
     for row in rows:
         prices = db(db.prices.ebook_id == row['ebook_id']).select().as_list()
