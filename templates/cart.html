@@ -27,6 +27,9 @@
         <div style="display:inline-block;">
           <font size="+2">$[[=row["price"] ]]</font>
         </div>
+        <a class="button is-danger" href="[[=URL('delete_cart', row['id'], signer=url_signer)]]">
+          <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+        </a>
 
       </article>
     [[pass]]

@@ -192,7 +192,7 @@ def search():
 @action.uses(db, session, auth.user, 'wishlist.html')
 def gotowishlist():
     rows = db(db.wish_list.user_id == get_user()).select().as_list()
-    print(rows)
+    # print(rows)
 
     for row in rows:
         prices = db(db.prices.ebook_id == row['ebook_id']).select().as_list()
@@ -231,3 +231,17 @@ def info(ebook_id=None):
     assert ebook_id is not None
     book = db.ebook[ebook_id]
     return dict(book=book, url_signer=url_signer)
+
+@action('delete_wishlist/<wish_list_id:int>')
+@action.uses(db, session, auth.user, url_signer.verify())
+def delete_wishlist(wish_list_id=None):
+    assert wish_list_id is not None
+    db((db.wish_list.user_id == get_user()) & (db.wish_list.id == wish_list_id)).delete()
+    redirect(URL('gotowishlist'))
+
+@action('delete_cart/<shopping_cart_id:int>')
+@action.uses(db, session, auth.user, url_signer.verify())
+def delete_cart(shopping_cart_id=None):
+    assert shopping_cart_id is not None
+    db((db.shopping_cart.user_id == get_user()) & (db.shopping_cart.id == shopping_cart_id)).delete()
+    redirect(URL('gotocart'))
