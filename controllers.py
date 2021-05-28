@@ -186,7 +186,7 @@ def search():
     for row in rows:
         #print(row['title'])
         if(row['title'].lower().find(q.lower()) != -1):
-            results.append(tuple((q + ": " + row['title'], row['id'])))
+            results.append(tuple((row['title'], row['id'])))
     #print(results)
     return dict(results=results)
 

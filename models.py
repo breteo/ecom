@@ -19,6 +19,7 @@ def get_user():
 def get_user_name():
     return (auth.current_user.get('first_name') + " " + auth.current_user.get('last_name')) if auth.current_user else None
 
+db.auth_user.id.readable = db.auth_user.id.writable = False
 
 db.define_table(
     'ebook',
