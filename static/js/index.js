@@ -2,6 +2,11 @@
 // and be used to initialize it.
 let app = {};
 
+var dropdown = document.querySelector('.dropdown');
+dropdown.addEventListener('click', function(event) {
+  event.stopPropagation();
+  dropdown.classList.toggle('is-active');
+});
 
 // Given an empty app object, initializes it filling its attributes,
 // creates a Vue instance, and then initializes the Vue instance.
