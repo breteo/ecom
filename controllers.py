@@ -181,10 +181,13 @@ def add_to_wishlist(ebook_id=None):
 def search():
     q = request.params.get("q")
     results = []
-    rows = db(db.ebook).select(db.ebook.title).as_list()
+    rows = db(db.ebook).select(db.ebook.title, db.ebook.id).as_list()
+    #print(rows)
     for row in rows:
+        #print(row['title'])
         if(row['title'].lower().find(q.lower()) != -1):
-            results.append(q + ": " + row['title'])
+            results.append(tuple((q + ": " + row['title'], row['id'])))
+    #print(results)
     return dict(results=results)
 
 

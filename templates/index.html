@@ -17,7 +17,7 @@
     </div>
 
     <div v-for="r in results">
-      <i>{{r}}</i>
+      <a :href="'[[=URL('info')]]/' + r[1]">{{r[0]}}</a>
     </div>
   </div>
   [[end]]
