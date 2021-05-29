@@ -10,10 +10,20 @@
 <div class="section">
 
   [[block page_menu_items]]
-  <!-- Search Bar -->
-  <div class="dropdown" style="margin-top: 5px">
-    <div id="vue-target" v-cloak>
-      <div class="control block" style="margin-bottom: -1.5rem;">
+  <!-- Search Bar old version-->
+  <!--<div class="mt-1" id="vue-target" v-cloak>
+    <div class="control block">
+      <input class="input" type="text" size="40" placeholder="Search by title" v-model="query" @keyup="search" />
+    </div>
+
+    <div v-for="r in results">
+      <a :href="'[[=URL('info')]]/' + r[1]">{{r[0]}}</a>
+    </div>
+  </div>-->
+  <!-- Search Bar new version-->
+  <div class="dropdown" style="margin-top: 5%;">
+    <div class="mt-1" id="vue-target" v-cloak>
+      <div class="control block">
         <input class="input" type="text" size="40" placeholder="Search by title" v-model="query" @keyup="search" />
       </div>
 
