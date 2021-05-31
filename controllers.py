@@ -106,7 +106,7 @@ def add_post():
         content=request.json.get('content'),
         reviewer=request.json.get('reviewer')
     )
-    print(request.json.get('content'))
+    #print(request.json.get('content'))
     return dict(id=id, author=get_user_name())
 
 
@@ -123,8 +123,7 @@ def delete_post():
 @action.uses(url_signer.verify(), db, auth.user)
 def get_rating():
     post_id = request.params.get('post_id')
-    row = db((db.star_rev.post == post_id) &
-             (db.star_rev.by == get_user())).select().first()
+    row = db((db.star_rev.post == post_id)).select().first()
     rating = row.rating if row is not None else 0
     return dict(rating=rating)
 
@@ -237,7 +236,9 @@ def info(ebook_id=None):
     book = db.ebook[ebook_id]
     return dict(book=book, url_signer=url_signer, ebook_id=ebook_id, load_bookrev_url=URL('load_bookrev', signer=url_signer),
                 add_book_url=URL('add_book', signer=url_signer),
-                delete_book_url=URL('delete_book', signer=url_signer))
+                delete_book_url=URL('delete_book', signer=url_signer),
+                get_rev_rating_url = URL('get_rev_rating', signer=url_signer),
+                set_rev_rating_url = URL('set_rev_rating', signer=url_signer),)
 
 
 @action('load_bookrev')
@@ -256,7 +257,7 @@ def add_book():
         reviewer=request.json.get('reviewer'),
         ebook_id=request.json.get('ebook_id')
     )
-    print(request.json.get('content'))
+    #print(request.json.get('content'))
     return dict(id=id, author=get_user_name())
 
 @action('delete_book')
@@ -266,6 +267,38 @@ def delete_book():
     assert id is not None
     db(db.prod_post.id == id).delete()
     return "ok"
+
+
+
+@action('get_rev_rating')
+@action.uses(url_signer.verify(), db, auth.user)
+def get_rev_rating():
+    prod_post_id = request.params.get('prod_post_id')
+    row = db((db.prod_star_rev.prod_post == prod_post_id)).select().first()
+    rating = row.rating if row is not None else 0
+    return dict(rating=rating)
+
+
+@action('set_rev_rating', method='POST')
+@action.uses(url_signer.verify(), db, auth.user)
+def set_rev_rating():
+    prod_post_id = request.json.get('prod_post_id')
+    rating = request.json.get('rating')
+    assert prod_post_id is not None and rating is not None
+    db.prod_star_rev.update_or_insert(
+        ((db.prod_star_rev.prod_post == prod_post_id) & (db.prod_star_rev.by == get_user())),
+        prod_post=prod_post_id,
+        by=get_user(),
+        rating=rating
+    )
+    return "ok"
+
+
+
+
+
+
+
 
 
 

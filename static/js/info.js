@@ -46,8 +46,8 @@ let init = (app) => {
                 reviewer: app.vue.the_reviewer,
                 ebook_id: the_id,
                 owner: app.vue.user,
-                /*rating: 0,
-                num_stars_display: 0,*/
+                rating: 0,
+                num_stars_display: 0,
             })
             app.enumerate(app.vue.rows);
             app.reset_form();
@@ -72,12 +72,59 @@ let init = (app) => {
             });
     };
 
+
+
+
+
+    app.complete = (rows) => {
+        // Initializes useful fields of images.
+        rows.map((rw) => {
+            rw.rating = 0;
+            rw.num_stars_display = 0;
+        })
+    };
+
+
+    app.stars_over = (r_idx, num_stars) => {
+        let rw = app.vue.rows[r_idx];
+        if (rw.reviewer == app.vue.the_reviewer){
+           rw.num_stars_display = num_stars;
+        }
+    };
+
+    app.stars_out = (r_idx) => {
+        let rw = app.vue.rows[r_idx];
+        if (rw.reviewer == app.vue.the_reviewer){
+           if (rw.rating > 0){
+              rw.num_stars_display = rw.rating;
+           }
+           else{
+              rw.num_stars_display = 0;
+           }
+        }
+    };
+
+    app.set_stars = (r_idx, num_stars) => {
+        let rw = app.vue.rows[r_idx];
+        if (rw.reviewer == app.vue.the_reviewer){
+           rw.rating = num_stars;
+           axios.post(set_rev_rating_url, {prod_post_id: rw.id, rating: rw.rating/*, poster_id: rw.poster_id*/});;
+        }
+    };
+
+
+
+
+
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
         set_add_prod_post: app.set_add_prod_post,
         add_post: app.add_post,
         delete_post: app.delete_post,
+        stars_over: app.stars_over,
+        stars_out: app.stars_out,
+        set_stars: app.set_stars,
     };
 
     // This creates the Vue instance.
@@ -96,10 +143,21 @@ let init = (app) => {
                 // We set them
                 let rows = result.data.rows;
                 app.enumerate(rows);
+                app.complete(rows);
                 app.vue.user = result.data.user;
                 app.vue.the_reviewer = result.data.the_reviewer;
                 console.log(app.vue.the_reviewer)
                 app.vue.rows = rows;
+            })
+            .then(() => {
+                for (let r of app.vue.rows) {
+                    axios.get(get_rev_rating_url, {params: {"prod_post_id": r.id}})
+                        .then((result) => {
+                            r.rating = result.data.rating;
+                            r.num_stars_display = r.rating;
+                            console.log(r);
+                        });
+                }
             });
 
     };

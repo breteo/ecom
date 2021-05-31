@@ -80,7 +80,13 @@ db.define_table(
     Field('owner', default=get_user_email),
     Field('reviewer', default=get_user),
     Field('ebook_id'),
-    Field('rating', 'integer', default=0), #0-5
+)
+
+db.define_table(
+    'prod_star_rev',
+    Field('by', default=get_user_name),
+    Field('prod_post', 'reference prod_post'),
+    Field('rating', 'integer', default=0) #0-5
 )
 
 

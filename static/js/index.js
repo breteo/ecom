@@ -118,8 +118,6 @@ let init = (app) => {
 
 
 
-
-
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.

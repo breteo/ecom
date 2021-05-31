@@ -45,7 +45,7 @@
 <div class="mt-1" id="vue-target" v-cloak>
   <div class="section">
 
-      <h2 class="title is-4">Write a Review of this Ebook!</h2>
+      <h2 class="title is-4">Review and Rate this Ebook!</h2>
 
       <div v-if="prod_post_status" class="container block">
 
@@ -76,8 +76,8 @@
                      <button v-if="r.owner===user" @click="delete_post(r._idx)" class="button is-danger">
                          <i class="fa fa-trash"></i><span>Delete Review</span></button></div>
 
-                     <!--<div>
-                      &lt;!&ndash; This is the code for the star rating &ndash;&gt;
+                     <div>
+                      <!-- This is the code for the star rating -->
                       <span @mouseout="stars_out(r._idx)">
                         <span @mouseover="stars_over(r._idx, star_idx)"
                               @click="set_stars(r._idx, star_idx)"
@@ -87,7 +87,7 @@
                         </span>
                       </span>
 
-                </div>-->
+                     </div>
 
                </div>
            </div>
@@ -104,6 +104,8 @@
     let load_bookrev_url = "[[=XML(load_bookrev_url)]]";
     let add_book_url = "[[=XML(add_book_url)]]";
     let delete_book_url = "[[=XML(delete_book_url)]]";
+    let get_rev_rating_url = "[[=XML(get_rev_rating_url)]]";
+    let set_rev_rating_url = "[[=XML(set_rev_rating_url)]]";
 </script>
 <script src="js/info.js"></script>
 [[end]]
