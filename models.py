@@ -73,4 +73,14 @@ db.define_table(
     Field('rating', 'integer', default=0) #0-5
 )
 
+db.define_table(
+    'prod_post',
+    Field('content', 'text'),
+    Field('author', default=get_user_name),
+    Field('owner', default=get_user_email),
+    Field('reviewer', default=get_user),
+    Field('ebook_id'),
+)
+
+
 db.commit()

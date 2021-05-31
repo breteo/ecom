@@ -214,6 +214,7 @@ def gotowishlist():
 @action.uses(db, session, auth.user, 'cart.html')
 def gotocart():
     rows = db(db.shopping_cart.user_id == get_user()).select().as_list()
+    total = 0
 
     for row in rows:
         prices = db(db.prices.ebook_id == row['ebook_id']).select().as_list()
@@ -225,15 +226,49 @@ def gotocart():
         # and we can simply assign the nice string to a field of the row!
         # No matter that the field did not originally exist in the database.
         row["price"] = result
+        total = total + result
 
-    return dict(rows=rows, url_signer=url_signer, search_url=URL('search', signer=url_signer))
+    return dict(rows=rows, url_signer=url_signer, total=total, search_url=URL('search', signer=url_signer))
 
 @action('info/<ebook_id:int>')
 @action.uses(db, auth.user, 'info.html')
 def info(ebook_id=None):
     assert ebook_id is not None
     book = db.ebook[ebook_id]
-    return dict(book=book, url_signer=url_signer)
+    return dict(book=book, url_signer=url_signer, ebook_id=ebook_id, load_bookrev_url=URL('load_bookrev', signer=url_signer),
+                add_book_url=URL('add_book', signer=url_signer),
+                delete_book_url=URL('delete_book', signer=url_signer))
+
+
+@action('load_bookrev')
+@action.uses(url_signer.verify(), db)
+def load_bookrev():
+    rows = db(db.prod_post).select().as_list()
+    return dict(rows=rows, user=get_user_email(), the_reviewer=get_user())
+
+
+@action('add_book', method="POST")
+@action.uses(url_signer.verify(), db)
+def add_book():
+    #print(request.json.get('author'))
+    id = db.prod_post.insert(
+        content=request.json.get('content'),
+        reviewer=request.json.get('reviewer'),
+        ebook_id=request.json.get('ebook_id')
+    )
+    print(request.json.get('content'))
+    return dict(id=id, author=get_user_name())
+
+@action('delete_book')
+@action.uses(url_signer.verify(), db)
+def delete_book():
+    id = request.params.get('id')
+    assert id is not None
+    db(db.prod_post.id == id).delete()
+    return "ok"
+
+
+
 
 @action('delete_wishlist/<wish_list_id:int>')
 @action.uses(db, session, auth.user, url_signer.verify())

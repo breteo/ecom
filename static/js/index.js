@@ -41,7 +41,7 @@ let init = (app) => {
     }
 
     app.add_post = function () {
-        axios.post(add_post_url,
+       /* axios.post(add_post_url,
             {
                 content: app.vue.add_content,
                 //poster_id: app.vue.the_reviewer,
@@ -60,7 +60,7 @@ let init = (app) => {
             app.enumerate(app.vue.rows);
             app.reset_form();
             app.set_add_post(false);
-        });
+        });*/
     };
 
     app.reset_form = function () {
@@ -118,6 +118,8 @@ let init = (app) => {
 
 
 
+
+
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
@@ -160,10 +162,11 @@ let init = (app) => {
                             r.rating = result.data.rating;
                             r.num_stars_display = r.rating;
                             console.log(r);
-                            //console.log(r.poster_id)
                         });
                 }
             });
+
+        //new
     };
 
     // Call to the initializer.
