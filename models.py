@@ -80,6 +80,7 @@ db.define_table(
     Field('owner', default=get_user_email),
     Field('reviewer', default=get_user),
     Field('ebook_id'),
+    Field('rating', 'integer', default=0), #0-5
 )
 
 
