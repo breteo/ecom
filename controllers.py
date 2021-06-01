@@ -334,6 +334,12 @@ def delete_cart(shopping_cart_id=None):
         db.shopping_cart.id == shopping_cart_id)).delete()
     redirect(URL('gotocart'))
 
+@action('clear_cart/<shopping_cart_id:int>')
+@action.uses(db, session, auth.user, url_signer.verify())
+def clear_cart(shopping_cart_id=None):
+    assert shopping_cart_id is not None
+    db((db.shopping_cart.user_id == get_user())).delete()
+    redirect(URL('gotocart'))
 
 @action('pay', method="POST")
 @action.uses(db, url_signer.verify())
@@ -373,8 +379,9 @@ def pay():
     return dict(session_id=stripe_session.id)
 
 @action('successful_payment')
-@action.uses(url_signer.verify())
+@action.uses(db, session, auth.user,url_signer.verify())
 def successful_payment():
+    db((db.shopping_cart.user_id == get_user())).delete()
     redirect(URL('home'))
 
 @action('cancelled_payment')
