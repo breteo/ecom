@@ -155,7 +155,7 @@ def add_to_cart(ebook_id=None):
             isFound = True
             break
     if(isFound is False):
-        db.shopping_cart.insert(ebook_id=ebook_id, user_id=get_user(), title=p.title, img=p.img, author=p.author, url=p.url)
+        db.shopping_cart.insert(ebook_id=ebook_id, user_id=get_user(), title=p.title, img=p.img, author=p.author, url=p.url, description=p.description)
     redirect(URL('index'))
 
 
