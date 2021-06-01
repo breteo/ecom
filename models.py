@@ -45,6 +45,7 @@ db.define_table(
     Field('url', requires=IS_NOT_EMPTY()),
     Field('img', default=IS_NOT_EMPTY),
     Field('author', requires=IS_NOT_EMPTY()),
+    Field('description'),
 )
 
 db.define_table(
