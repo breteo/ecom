@@ -36,7 +36,7 @@
     </div>
 
     <div class="column is-3 is-hidden-mobile sticky">
-      <div>
+      <div id="vue-target" v-cloak>
         <article style="padding: 10px 20px; border-radius: 3px; margin-bottom: 20px; height:500px; position: fixed; width: 350px;
           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3), 0 6px 20px 0 rgba(0,0,0,0.2); display: flex; flex-wrap: wrap;">
           <div style="flex:1;">
@@ -48,14 +48,25 @@
               <p class="ml-4">[[=row["title"] ]]</p>
             [[pass]]
           </div>
-          <button class="button is-primary" style="position: absolute; bottom: 20px; right: 20px;">Purchase</button>
+          [[if total != 0: ]]
+          <button class="button is-primary" style="position: absolute; bottom: 20px; right: 20px;" @click="pay()">Purchase</button>
+          [[pass]]
         </article>
       </div>
     </div>
 
   </section>
 
-
 </div>
 
+[[block page_scripts]]
+<!-- Loads the index-specific js for Vue -->
+<script>
+  let pay_url = "[[=XML(pay_url)]]";
+  let stripe_key = "[[=XML(stripe_key)]]";
+  let app_name = "[[=XML(app_name)]]";
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="js/cart.js"></script>
+[[end]]
 
