@@ -45,7 +45,7 @@
             </div>
             <h1 class="title"> TOTAL PRICE: $[[=total]]</h1>
             [[for row in rows:]]
-              <p class="ml-4">[[=row["title"] ]]</p>
+              <p class="ml-4">[[=row["title"] ]]: $[[=row["price"] ]]</p>
             [[pass]]
           </div>
           [[if total != 0: ]]
