@@ -4,6 +4,9 @@
   [v-cloak] {
        display: none;
   }
+
+
+
 </style>
 
 
@@ -18,7 +21,7 @@
   <div class="container col-md-12">
     <article style="padding: 10px 20px; border-radius: 3px; margin-bottom: 20px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3), 0 6px 20px 0 rgba(0,0,0,0.2); display: flex; flex-wrap: wrap;">
-    <img class="mr-3" src="images/[[=book['img'] ]]" style="height: 300px; width: 200px; border-radius: 3px;">
+      <img class="mr-3" src="images/[[=book['img'] ]]" style="height: 300px; width: 200px; border-radius: 3px;">
       <div style="flex:1;">
         <div style="margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #808080">
           <h1 style="display: inline-block; font-size: 30px;">[[=book["title"] ]]</h1>
@@ -38,64 +41,60 @@
   </div>
 </div>
 
-
-
-
-
 <div class="mt-1" id="vue-target" v-cloak>
-  <div class="section">
+  <div class="container">
+    <article style="padding: 10px 20px; border-radius: 3px; margin-bottom: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3), 0 6px 20px 0 rgba(0,0,0,0.2);">
 
-      <h2 class="title is-4">Review and Rate this Ebook!</h2>
+      <div style="margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #808080">
+        <h2 class="title is-4">Review and rate this eBook!</h2>
+      </div>
 
-      <div v-if="prod_post_status" class="container block">
+      <div v-if="add_post_status" class="container block">
 
-         <input type="text" v-model="add_book_content" placeholder="Enter review here" class="textarea">
+        <input type="text" v-model="add_content" placeholder="Enter review here" class="textarea">
 
-         <td><input type="submit" @click="add_post([[=ebook_id]])" value="Post" class="button is-primary"></td>
+        <td><input type="submit" @click="add_post" value="Post" class="button is-primary"></td>
 
-         <td><button @click="set_add_prod_post(false)" class="button is-warning">
-            <span>Cancel</span> </button>
-         </td>
+        <td>
+          <button @click="set_add_post(false)" class="button is-warning">
+            <span>Cancel</span></button>
+        </td>
 
       </div>
 
-      <div v-else class="container block">
-         <td><button @click="set_add_prod_post(true)" class="button is-primary">
+      <div v-else class="container block level-right">
+        <td>
+          <button @click="set_add_post(true)" class="button">
             <span class="icon"><i class="fa fa-fw fa-plus"></i></span> <span>Add Review</span></button>
-         </td>
+        </td>
       </div>
 
-      <div v-for="r in rows.slice().reverse()">
+      <div class="box has-background-grey-lighter" v-for="r in rows.slice().reverse()">
 
-         <div v-if="r.ebook_id == [[=ebook_id]]" class="container block">
-           <div style="padding-top:10px;padding-bottom:10px">
-              <div class="box has-background-grey-lighter">
-                 <div>{{r.content}}</div>
-                 <div class="text has-text-grey" >{{r.author}}</div>
-                 <div class="level-right">
-                     <button v-if="r.owner===user" @click="delete_post(r._idx)" class="button is-danger">
-                         <i class="fa fa-trash"></i><span>Delete Review</span></button></div>
+        <div>{{r.content}}</div>
+        <div class="text has-text-grey">{{r.author}}</div>
+        <div>
+            <span @mouseout="stars_out(r._idx)">
+            <span @mouseover="stars_over(r._idx, star_idx)"
+                  @click="set_stars(r._idx, star_idx)"
+                  v-for="star_idx in [1, 2, 3, 4, 5]">
+            <i v-if="star_idx <= r.num_stars_display" class="fa fa-star"></i>
+            <i v-if="star_idx > r.num_stars_display" class="fa fa-star-o"></i>
+            </span>
+            </span>
+        </div>
 
-                     <div>
-                      <!-- This is the code for the star rating -->
-                      <span @mouseout="stars_out(r._idx)">
-                        <span @mouseover="stars_over(r._idx, star_idx)"
-                              @click="set_stars(r._idx, star_idx)"
-                              v-for="star_idx in [1, 2, 3, 4, 5]">
-                          <i v-if="star_idx <= r.num_stars_display" class="fa fa-star"></i>
-                          <i v-if="star_idx > r.num_stars_display" class="fa fa-star-o"></i>
-                        </span>
-                      </span>
+        <div class="level-right">
+          <button v-if="r.owner===user" @click="delete_post(r._idx)" class="button">
+            <i class="fa fa-trash"></i><span></span>
+          </button>
+        </div>
 
-                     </div>
-
-               </div>
-           </div>
-         </div>
       </div>
 
+    </article>
   </div>
-
 </div>
 
 [[block page_scripts]]
@@ -106,6 +105,9 @@
     let delete_book_url = "[[=XML(delete_book_url)]]";
     let get_rev_rating_url = "[[=XML(get_rev_rating_url)]]";
     let set_rev_rating_url = "[[=XML(set_rev_rating_url)]]";
+
+
+
 </script>
 <script src="js/info.js"></script>
 [[end]]
