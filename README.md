@@ -52,4 +52,8 @@ Eric: Front end
 
 Brendan: Back end
 
-Vipul: Back end  
+Vipul: Back end 
+
+
+Also small note from Vipul Gupta: commits made by github account ankurgupta16 were actually by me. The git config settings in my laptop were set to my brother's account as my laptop was set up with a backup of his laptop. Corrected this midway through project, which can be seen in the commit history.
+
