@@ -39,7 +39,7 @@ Important features of our website using vue:
 Overall, our goal was to build an ebook ecommerce website and we feel like we have created something that very closely resembles that with this py4web site. 
 
 
-Useful Resources: Unit 15, 17, 20, and doing hw5 for the CSE 183 class at UCSC really helped us implement a lot of the major pieces of our site. We stated with starter code from this class and built our pages from there. The starter code basically allows users to log in and create profiles. 
+Useful Resources: Unit 15, 17, 20, and doing hw5 for the CSE 183 class at UCSC really helped us implement a lot of the major pieces of our site. We started with starter code from this class and built our pages from there. The starter code basically allows users to log in and create profiles. 
 
 
 Testing: Testing for this project was done on mac and windows, using the py4web server and the browsers Firefox, Google Chrome, and Microsoft edge.
@@ -47,6 +47,9 @@ Testing: Testing for this project was done on mac and windows, using the py4web 
 
 
 Work Allocation:
+
 Eric: Front end
+
 Brendan: Back end
+
 Vipul: Back end  
